@@ -11,6 +11,25 @@ const express = require("express");
 
 const app = express();
 
+const session = require('express-session');
+
+const MongoStore = require('connect-mongo');
+
+
+app.use(session({
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false, 
+	cookie: {
+	  maxAge: 1000 * 24* 60 * 60 // your cookie will be cleared after these seconds
+	},
+	store: MongoStore.create({
+	  mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/foodSnitch",
+	  // Time to Live for sessions in DB. After that time it will delete it!
+	  ttl: 24* 60 * 60 // your session will be cleared after these seconds
+	})
+  }));
+
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
@@ -25,6 +44,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Contrary to the views version, all routes are controlled from the routes/index.js
 const allRoutes = require("./routes/index.routes");
 app.use("/api", allRoutes);
+
+const authRoutes = require("./routes/auth.routes");
+app.use("/api", authRoutes);
 
 
 app.use((req, res, next) => {
