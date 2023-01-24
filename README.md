@@ -9,7 +9,7 @@ Users can view all the top market cap cryptos and sort with just a click. Users 
 
 ## How It's Made:
 
-**Tech used: JavaScript, React, MongoDB, Express, Bootstrap, Node.js, CSS, HTML
+**Tech used: JavaScript, React, MongoDB, Express, Bootstrap, Node.js, CSS, HTML**
 
 Full CRUD MERN crypto app with multiple apis and custom user information. Test login avaible for easy access. 
 
